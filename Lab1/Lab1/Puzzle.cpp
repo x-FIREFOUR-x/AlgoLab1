@@ -7,6 +7,9 @@ Puzzle::Puzzle()
 	{
 		field[i] = new int[3];
 	}
+
+	locate_zero();
+	h2 = 0;
 }
 Puzzle::Puzzle(const Puzzle& obj)
 {
@@ -24,6 +27,8 @@ Puzzle::Puzzle(const Puzzle& obj)
 		}
 
 	}
+	locate_zero();
+	h2 = 0;
 }
 Puzzle::~Puzzle()
 {
@@ -44,6 +49,10 @@ Puzzle Puzzle::operator=(const Puzzle& obj)
 			field[i][j] = obj.field[i][j];
 		}
 	}
+
+	x_void = obj.x_void;
+	y_void = obj.y_void;
+	h2 = obj.h2;
 
 	return *this;
 }
@@ -108,7 +117,7 @@ void Puzzle::random()
 	{
 		buf.push_back(i);
 	}
-	random_shuffle(buf.begin(), buf.end());
+	//random_shuffle(buf.begin(), buf.end());
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -119,19 +128,20 @@ void Puzzle::random()
 }
 
 
-void Puzzle::move(int x, int y)
+void Puzzle::move(int x, int y, bool& possible)
 {
+	possible = true;
 	locate_zero();
-	if ( (x<3 && x>=0 && y<3 && y>=0 ) && ((x==x_void+1 && y==y_void) || (x==x_void && y==y_void+1) || (x==x_void-1 && y==y_void) || (x==x_void && y==y_void-1)) )
+	if ((x < 3 && x >= 0 && y < 3 && y >= 0) && ((x == x_void + 1 && y == y_void) || (x == x_void && y == y_void + 1) || (x == x_void - 1 && y == y_void) || (x == x_void && y == y_void - 1)))
 	{
 		field[x_void][y_void] = field[x][y];
 		field[x][y] = 0;
 	}
 	else
 	{
-		cout << "!! Eror move can't !!" << endl;
+		possible = false;
 	}
-	
+
 }
 
 int Puzzle::get_h2()
@@ -139,6 +149,40 @@ int Puzzle::get_h2()
 	calculate_heuristics();
 	return h2;
 }
+
+int Puzzle::get_x_void()
+{
+	return x_void;
+}
+
+int Puzzle::get_y_void()
+{
+	return y_void;
+}
+
+bool Puzzle::success()
+{
+	bool s = true;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (!(field[i][j] == i * 3 + j))
+			{
+				s = false;
+				break;
+			}
+		}
+		if (!s)
+		{
+			break;
+		}
+
+	}
+	return s;
+}
+
+
 
 void Puzzle::locate_zero()
 {
@@ -158,17 +202,35 @@ void Puzzle::locate_zero()
 
 void Puzzle::calculate_heuristics()
 {
-	h2 = 0;
+	
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
 			if (field[i][j] != 0)
 			{
-				cout << abs(field[i][j] / 3 - i) + abs(field[i][j] % 3 - j) << endl;
 				h2 += abs(field[i][j] / 3 - i) + abs(field[i][j] % 3 - j);
 			}
-			
+
 		}
 	}
 }
+
+bool Puzzle::operator==(const Puzzle& obj)
+{
+	bool exactly = true;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (field[i][j] != obj.field[i][j])
+			{
+				exactly = false;
+			}
+		}
+
+	}
+
+	return exactly;
+}
+

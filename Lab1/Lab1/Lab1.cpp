@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 #include <ctime>
 #include "Puzzle.h"
+#include "Tree.h"
+
 
 using namespace std;
 int main()
@@ -8,8 +10,11 @@ int main()
     srand(time(NULL));
     Puzzle l;
     l.read();
-    l.write();
+    //l.write();
 
-    cout << endl << l.get_h2() << endl;
+    Tree t;
+    t.Astar(l);
+
+    t.write_solution();
 }
 

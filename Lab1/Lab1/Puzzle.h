@@ -2,15 +2,16 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
+
 using namespace std;
-#pragma once
+
 class Puzzle
 {
 private:
 	int** field;
 	int x_void;		// index row void (puzzle "0")
 	int y_void;		// index column void (puzzle "0")
-	int h2;			// Manhattan heuristics
+	int h2 = 0;			// Manhattan heuristics
 public:
 	Puzzle();
 	Puzzle(const Puzzle& obj);
@@ -21,12 +22,17 @@ public:
 	void write();
 	void read();
 	void random();
-	void move(int x, int y);
+	void move(int x, int y, bool& posible);
 	int get_h2();
+	int get_x_void();
+	int get_y_void();
+	bool success();
+	void calculate_heuristics();
+	bool operator==(const Puzzle&);
 
 private:
 	void locate_zero();
-	void calculate_heuristics();
+
 };
 
 
