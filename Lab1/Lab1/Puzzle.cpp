@@ -8,9 +8,14 @@ Puzzle::Puzzle()
 		field[i] = new int[3];
 	}
 }
-
 Puzzle::Puzzle(const Puzzle& obj)
 {
+	field = new int* [3];
+	for (int i = 0; i < 3; i++)
+	{
+		field[i] = new int[3];
+	}
+
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -20,7 +25,6 @@ Puzzle::Puzzle(const Puzzle& obj)
 
 	}
 }
-
 Puzzle::~Puzzle()
 {
 	for (int i = 0; i < 3; i++)
@@ -31,17 +35,33 @@ Puzzle::~Puzzle()
 
 }
 
-void Puzzle::write()
+Puzzle Puzzle::operator=(const Puzzle& obj)
 {
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			cout << field[i][j];
+			field[i][j] = obj.field[i][j];
 		}
 	}
+
+	return *this;
 }
 
+
+void Puzzle::write()
+{
+	cout << "_____" << endl;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			cout << field[i][j] << " ";
+		}
+		cout << endl;
+	}
+	cout << "-----" << endl;
+}
 void Puzzle::read()
 {
 	for (int i = 0; i < 3; i++)
@@ -53,9 +73,9 @@ void Puzzle::read()
 	}
 }
 
-
 std::ostream& operator<<(std::ostream& out, Puzzle& obj)
 {
+	out << "_____" << endl;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -64,10 +84,10 @@ std::ostream& operator<<(std::ostream& out, Puzzle& obj)
 		}
 		out << '\n';
 	}
+	out << "-----" << endl;
 
 	return out;
 }
-
 std::istream& operator>>(std::istream& in, Puzzle& obj)
 {
 	for (int i = 0; i < 3; i++)
@@ -81,23 +101,14 @@ std::istream& operator>>(std::istream& in, Puzzle& obj)
 	return in;
 }
 
-/*void Puzzle::random()
+void Puzzle::random()
 {
-	int* buf = new int[9];
-	buf[0] = rand() % 10;
-	for (int i = 1; i < 9; i++)
+	vector<int> buf;
+	for (int i = 0; i < 9; i++)
 	{
-		bool correct = false;
-		while (!correct)
-		{
-			buf[i] = rand() % 10;
-			for (int j = 0; j < i; j++)
-			{
-				if ()
-			}
-		}
+		buf.push_back(i);
 	}
-
+	random_shuffle(buf.begin(), buf.end());
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -105,4 +116,4 @@ std::istream& operator>>(std::istream& in, Puzzle& obj)
 			field[i][j] = buf[i * 3 + j];
 		}
 	}
-}*/
+}

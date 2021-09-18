@@ -1,5 +1,7 @@
 #pragma once
 #include<iostream>
+#include<algorithm>
+#include<vector>
 using namespace std;
 #pragma once
 class Puzzle
@@ -10,6 +12,7 @@ public:
 	Puzzle();
 	Puzzle(const Puzzle& obj);
 	~Puzzle();
+	Puzzle operator=(const Puzzle& obj);
 	friend std::ostream& operator<<(std::ostream& out, Puzzle& obj);
 	friend std::istream& operator>>(std::istream& in, Puzzle& obj);
 	void write();
