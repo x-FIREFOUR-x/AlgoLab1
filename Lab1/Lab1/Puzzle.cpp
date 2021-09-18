@@ -134,6 +134,12 @@ void Puzzle::move(int x, int y)
 	
 }
 
+int Puzzle::get_h2()
+{
+	calculate_heuristics();
+	return h2;
+}
+
 void Puzzle::locate_zero()
 {
 	for (int i = 0; i < 3; i++)
@@ -147,5 +153,22 @@ void Puzzle::locate_zero()
 			}
 		}
 
+	}
+}
+
+void Puzzle::calculate_heuristics()
+{
+	h2 = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (field[i][j] != 0)
+			{
+				cout << abs(field[i][j] / 3 - i) + abs(field[i][j] % 3 - j) << endl;
+				h2 += abs(field[i][j] / 3 - i) + abs(field[i][j] % 3 - j);
+			}
+			
+		}
 	}
 }

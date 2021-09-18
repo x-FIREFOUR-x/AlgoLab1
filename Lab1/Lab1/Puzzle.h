@@ -8,8 +8,9 @@ class Puzzle
 {
 private:
 	int** field;
-	int x_void;
-	int y_void;
+	int x_void;		// index row void (puzzle "0")
+	int y_void;		// index column void (puzzle "0")
+	int h2;			// Manhattan heuristics
 public:
 	Puzzle();
 	Puzzle(const Puzzle& obj);
@@ -21,9 +22,11 @@ public:
 	void read();
 	void random();
 	void move(int x, int y);
+	int get_h2();
 
 private:
 	void locate_zero();
+	void calculate_heuristics();
 };
 
 

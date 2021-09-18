@@ -7,12 +7,9 @@ int main()
 {
     srand(time(NULL));
     Puzzle l;
-    l.random();
+    l.read();
     l.write();
 
-    int x, y;
-    cin >> x >> y;
-    l.move(x, y);
-    l.write();
+    cout << endl << l.get_h2() << endl;
 }
 
