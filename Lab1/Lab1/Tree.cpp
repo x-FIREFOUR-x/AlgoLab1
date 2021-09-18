@@ -23,8 +23,6 @@ void Tree::Astar(Puzzle p)
 {
 	row = new Node(p);
 	build_son(row);
-	
-	
 }
 
 void Tree::build_son(Node* ptr_node)
