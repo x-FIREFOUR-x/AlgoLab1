@@ -117,3 +117,35 @@ void Puzzle::random()
 		}
 	}
 }
+
+
+void Puzzle::move(int x, int y)
+{
+	locate_zero();
+	if ( (x<3 && x>=0 && y<3 && y>=0 ) && ((x==x_void+1 && y==y_void) || (x==x_void && y==y_void+1) || (x==x_void-1 && y==y_void) || (x==x_void && y==y_void-1)) )
+	{
+		field[x_void][y_void] = field[x][y];
+		field[x][y] = 0;
+	}
+	else
+	{
+		cout << "!! Eror move can't !!" << endl;
+	}
+	
+}
+
+void Puzzle::locate_zero()
+{
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (field[i][j] == 0)
+			{
+				x_void = i;
+				y_void = j;
+			}
+		}
+
+	}
+}

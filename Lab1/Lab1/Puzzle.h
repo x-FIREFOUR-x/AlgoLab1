@@ -8,6 +8,8 @@ class Puzzle
 {
 private:
 	int** field;
+	int x_void;
+	int y_void;
 public:
 	Puzzle();
 	Puzzle(const Puzzle& obj);
@@ -18,8 +20,10 @@ public:
 	void write();
 	void read();
 	void random();
+	void move(int x, int y);
 
-
+private:
+	void locate_zero();
 };
 
 

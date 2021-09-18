@@ -1,7 +1,4 @@
-﻿// Lab1.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
-//
-
-#include <iostream>
+﻿#include <iostream>
 #include <ctime>
 #include "Puzzle.h"
 
@@ -13,11 +10,9 @@ int main()
     l.random();
     l.write();
 
-    Puzzle k ;
-    k.random();
-    k.write();
-    k= l;
-
-    cout << k;
+    int x, y;
+    cin >> x >> y;
+    l.move(x, y);
+    l.write();
 }
 
