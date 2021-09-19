@@ -116,6 +116,8 @@ void Algorithm::build_son(Node* ptr_node, int index, bool posible, const Puzzle&
 	}
 }
 
+
+
 void Algorithm::write_solution()
 {
 
@@ -126,4 +128,75 @@ void Algorithm::write_solution()
 	}
 }
 
+void Algorithm::BFS(Puzzle p)
+{
+	bool is_search = false;
+	if (!p.success())
+	{
+		row = new Node(p, nullptr);		// створення початкового стану в корні дерева
+		search(row, is_search);
+	}
+	else
+	{	
+		bfs_solution.push(p);
+	}
+
+}
+
+Node* Algorithm::search(Node* ptr_node,bool& is_search)
+{
+	while (!is_search)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			if (ptr_node->ptr[i] != nullptr)
+			{
+				search(ptr_node->ptr[i], is_search);
+			}
+			else
+			{
+				build_all_son_bfs(ptr_node);
+			}
+		}
+	}
+
+
+	return nullptr;
+}
+
+void Algorithm::build_all_son_bfs(Node* ptr_node)
+{
+	bool posible;
+	int k = 0;
+
+	Puzzle p = ptr_node->puzzele;
+	p.move(ptr_node->puzzele.get_x_void() - 1, ptr_node->puzzele.get_y_void(), posible);
+	if (posible) {
+		ptr_node->ptr[k] = new Node(p, ptr_node);
+		k++;
+	}
+
+	p = ptr_node->puzzele;
+	p.move(ptr_node->puzzele.get_x_void() + 1, ptr_node->puzzele.get_y_void(), posible);
+	if (posible)
+	{
+		ptr_node->ptr[k] = new Node(p, ptr_node);
+		k++;
+	}
+
+	p = ptr_node->puzzele;
+	p.move(ptr_node->puzzele.get_x_void(), ptr_node->puzzele.get_y_void() - 1, posible);
+	if (posible)
+	{
+		ptr_node->ptr[k] = new Node(p, ptr_node);
+		k++;
+	}
+
+	p = ptr_node->puzzele;
+	p.move(ptr_node->puzzele.get_x_void(), ptr_node->puzzele.get_y_void() + 1, posible);
+	if (posible)
+	{
+		ptr_node->ptr[k] = new Node(p, ptr_node);
+	}
+}
 
