@@ -163,11 +163,11 @@ int Puzzle::get_y_void()
 bool Puzzle::success()
 {
 	bool s = true;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 3; i++)	
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			if (!(field[i][j] == i * 3 + j))
+			if (!(field[i][j] == i * 3 + j))	// перевірка чи комірка з цифрою на свому місті
 			{
 				s = false;
 				break;
@@ -232,5 +232,23 @@ bool Puzzle::operator==(const Puzzle& obj)
 	}
 
 	return exactly;
+}
+
+ bool Puzzle::operator!=(const Puzzle& obj)
+{
+	bool exactly = true;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			if (field[i][j] != obj.field[i][j])
+			{
+				exactly = false;
+			}
+		}
+
+	}
+
+	return !exactly;
 }
 
