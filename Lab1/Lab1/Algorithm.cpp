@@ -22,10 +22,13 @@ Node::~Node()
 void Algorithm::Astar(Puzzle p)
 {
 	row = new Node(p);
-	build_son(row);
+	function<int(Node*)>specifics;
+	specifics = [this] (Node* arg) { return this->choose_sun_astar(arg); };
+
+	build_son(row, specifics);
 }
 
-void Algorithm::build_son(Node* ptr_node)
+void Algorithm::build_son(Node* ptr_node, function<int(Node*)> specifics)
 {
 	solution.push_back(ptr_node->puzzele);
 	used.push_back(ptr_node->puzzele);
@@ -63,24 +66,8 @@ void Algorithm::build_son(Node* ptr_node)
 			ptr_node->ptr[3] = new Node(p);
 		}
 
-		int number_son;
-		int min_h2 = 1000;
-		int p_h2;
-		for (int i = 0; i < 4; i++)
-		{
-			if (ptr_node->ptr[i] != nullptr)
-			{
-				ptr_node->ptr[i]->puzzele.calculate_heuristics();
-				p_h2 = ptr_node->ptr[i]->puzzele.get_h2();
-
-				if (p_h2 < min_h2)
-				{
-					min_h2 = p_h2;
-					number_son = i;
-				}
-			}
-		}
-		bool is_swap = false;
+		
+		/*bool is_swap = false;
 		for (int i = 0; i < used.size(); i++)
 		{
 			if (ptr_node->ptr[number_son]->puzzele == used[i])
@@ -99,12 +86,36 @@ void Algorithm::build_son(Node* ptr_node)
 					break;
 				}
 			}
-		}
+		}*/
+
+
+		int number_son = specifics(ptr_node);					// вибір сина згідно специфіки алгоритму (визначається в переданій алгоритмом функції в обгортку specifics)
 		
-		
-		build_son(ptr_node->ptr[number_son]);
+		build_son(ptr_node->ptr[number_son], specifics);		// рекурсивний виклик для побудови нащадків вибраного сина
 	}
 
+}
+
+int Algorithm::choose_sun_astar(Node* ptr_node)
+{
+	int number_son;
+	int min_h2 = 1000;
+	int p_h2;
+	for (int i = 0; i < 4; i++)
+	{
+		if (ptr_node->ptr[i] != nullptr)
+		{
+			ptr_node->ptr[i]->puzzele.calculate_heuristics();
+			p_h2 = ptr_node->ptr[i]->puzzele.get_h2();
+
+			if (p_h2 < min_h2)
+			{
+				min_h2 = p_h2;
+				number_son = i;
+			}
+		}
+	}
+	return number_son;
 }
 
 void Algorithm::write_solution()

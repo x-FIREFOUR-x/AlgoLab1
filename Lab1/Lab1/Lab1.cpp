@@ -1,10 +1,12 @@
 ﻿#include <iostream>
+#include <functional>
 #include <ctime>
 #include "Puzzle.h"
 #include "Algorithm.h"
 
 
 using namespace std;
+
 int main()
 {
     srand(time(NULL));
@@ -16,5 +18,7 @@ int main()
     t.Astar(l);
 
     t.write_solution();
+    
+    return 0;
 }
 
