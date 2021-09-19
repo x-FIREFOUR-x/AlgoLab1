@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <ctime>
 #include "Puzzle.h"
-#include "Tree.h"
+#include "Algorithm.h"
 
 
 using namespace std;
@@ -12,7 +12,7 @@ int main()
     l.read();
     //l.write();
 
-    Tree t;
+    Algorithm t;
     t.Astar(l);
 
     t.write_solution();

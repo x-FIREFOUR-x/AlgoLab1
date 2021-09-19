@@ -142,11 +142,11 @@
   <ItemGroup>
     <ClCompile Include="Lab1.cpp" />
     <ClCompile Include="Puzzle.cpp" />
-    <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="Algorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Puzzle.h" />
-    <ClInclude Include="Tree.h" />
+    <ClInclude Include="Algorithm.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,4 @@
-#include "Tree.h"
+#include "Algorithm.h"
 
 Node::Node(Puzzle obj)
 {
@@ -19,17 +19,17 @@ Node::~Node()
 	delete[]ptr;
 }
 
-void Tree::Astar(Puzzle p)
+void Algorithm::Astar(Puzzle p)
 {
 	row = new Node(p);
 	build_son(row);
 }
 
-void Tree::build_son(Node* ptr_node)
+void Algorithm::build_son(Node* ptr_node)
 {
 	solution.push_back(ptr_node->puzzele);
 	used.push_back(ptr_node->puzzele);
-	ptr_node->puzzele.write();
+	//ptr_node->puzzele.write();
 
 	if (!(ptr_node->puzzele.success()))
 	{
@@ -80,14 +80,14 @@ void Tree::build_son(Node* ptr_node)
 				}
 			}
 		}
-		/*bool is_swap = false;
+		bool is_swap = false;
 		for (int i = 0; i < used.size(); i++)
 		{
 			if (ptr_node->ptr[number_son]->puzzele == used[i])
 			{
 				for (int i = 0; i < 4; i++)
 				{
-					if (i != number_son && ptr_node->ptr[i] != nullptr)
+					if (i != number_son && ptr_node->ptr[i] != nullptr && !(ptr_node->ptr[i]->puzzele == ptr_node->puzzele))
 					{
 						number_son = i;
 						is_swap = true;
@@ -99,7 +99,7 @@ void Tree::build_son(Node* ptr_node)
 					break;
 				}
 			}
-		}*/
+		}
 		
 		
 		build_son(ptr_node->ptr[number_son]);
@@ -107,7 +107,7 @@ void Tree::build_son(Node* ptr_node)
 
 }
 
-void Tree::write_solution()
+void Algorithm::write_solution()
 {
 
 	cout << "======STEPS========" << endl;

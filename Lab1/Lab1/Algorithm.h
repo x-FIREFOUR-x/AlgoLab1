@@ -14,7 +14,7 @@ struct Node
 	
 };
 
-class Tree
+class Algorithm
 {
 	Node* row;
 	vector<Puzzle> solution;
