@@ -168,7 +168,6 @@ Node* Algorithm::search(Node* ptr_node,bool& is_search)
 			if (is_search)
 			{
 				bfs_solution.push(ptr_node->puzzele);
-				//ptr_node->puzzele.write();
 				return ptr_node->ptr_father;
 			}
 			else
@@ -221,23 +220,19 @@ void Algorithm::build_all_son_bfs(Node* ptr_node, bool& is_search)
 	p.move(ptr_node->puzzele.get_x_void(), ptr_node->puzzele.get_y_void() + 1, posible);
 	build_son_bfs(ptr_node, posible, k, p);
 
-
-	//cout << "********************" << endl;
-	//ptr_node->puzzele.write();
-
 	for (int i = 0; i < 4; i++)
 	{
 		if (ptr_node->ptr[i] != nullptr)
 		{
-			//ptr_node->ptr[i]->puzzele.write();
-			if (ptr_node->ptr[i]->puzzele.success()){
+			if (ptr_node->ptr[i]->puzzele.success())
+			{
 				bfs_solution.push(ptr_node->ptr[i]->puzzele);
 				is_search = true;
 			}
 		}
 			
 	}
-	//cout << "++++++++++++++++++++++" << endl;
+	
 	ptr_node->is_son = true;
 }
 
