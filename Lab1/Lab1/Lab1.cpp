@@ -15,9 +15,11 @@ int main()
     //l.write();
 
     Algorithm t;
-    t.Astar(l);
+    //t.Astar(l);
 
-    t.write_solution();
+    t.BFS(l);
+   // t.write_solution();
+    t.write_bfs_solution();
     
     return 0;
 }

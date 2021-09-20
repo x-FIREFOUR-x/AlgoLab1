@@ -10,6 +10,7 @@ Node::Node(Puzzle obj, Node* p_father)
 	}
 
 	ptr_father = p_father;
+	is_son = false;
 }
 
 Node::~Node()
@@ -143,20 +144,41 @@ void Algorithm::BFS(Puzzle p)
 
 }
 
+void Algorithm::write_bfs_solution()
+{
+	cout << "======STEPS===" << solution.size() - 1 << "=====" << endl;
+	Puzzle p;
+	for (int i = 0; i < solution.size(); i++)
+	{ 
+		cout << bfs_solution.top();
+		bfs_solution.pop();
+	}
+}
+
 Node* Algorithm::search(Node* ptr_node,bool& is_search)
 {
 	while (!is_search)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			if (ptr_node->ptr[i] != nullptr)
+			if (is_search)
 			{
-				search(ptr_node->ptr[i], is_search);
+				bfs_solution.push(ptr_node->puzzele);
+				return ptr_node->ptr_father;
 			}
 			else
 			{
-				build_all_son_bfs(ptr_node);
+				if (ptr_node->ptr[i] != nullptr)
+				{
+					search(ptr_node->ptr[i], is_search);
+				}
+				else
+				{
+					if (ptr_node->is_son != true)
+						build_all_son_bfs(ptr_node, is_search);
+				}
 			}
+			
 		}
 	}
 
@@ -164,7 +186,7 @@ Node* Algorithm::search(Node* ptr_node,bool& is_search)
 	return nullptr;
 }
 
-void Algorithm::build_all_son_bfs(Node* ptr_node)
+void Algorithm::build_all_son_bfs(Node* ptr_node, bool& is_search)
 {
 	bool posible;
 	int k = 0;
@@ -197,6 +219,21 @@ void Algorithm::build_all_son_bfs(Node* ptr_node)
 	if (posible)
 	{
 		ptr_node->ptr[k] = new Node(p, ptr_node);
+		k++;
 	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (ptr_node->ptr[i] != nullptr)
+		{
+			ptr_node->ptr[i]->puzzele.write();
+			if (ptr_node->ptr[i]->puzzele.success()){
+				bfs_solution.push(ptr_node->ptr[i]->puzzele);
+				is_search = true;
+			}
+		}
+			
+	}
+	ptr_node->is_son = true;
 }
 

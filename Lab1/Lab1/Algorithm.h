@@ -11,6 +11,7 @@ struct Node				// вузел дерева(стан головоломки) потрібного алгоритму
 	Puzzle puzzele;		// стан головоломки
 	Node** ptr;			// вказівники на наступні стани
 	Node* ptr_father;	// вказівник на попередній стан
+	bool is_son;
 	
 	Node(Puzzle, Node*);
 	~Node();
@@ -28,6 +29,7 @@ public:
 	void Astar(Puzzle);			//	Алгоритм A* для розв'язання 8-puzzle
 	void write_solution();	
 	void BFS(Puzzle);
+	void write_bfs_solution();
 
 private:
 	void build_all_son(Node*);				// побудувати в дереві всі наступні стани (синів)
@@ -35,7 +37,7 @@ private:
 	void build_son(Node* ptr_node, int index, bool posible, const Puzzle& p);	// побудувати один з всіх наступних станів, якщо це можливо (чи він вже не використовувався)
 
 	Node* search(Node* row, bool&);
-	void build_all_son_bfs(Node* row);
+	void build_all_son_bfs(Node* row, bool&);
 	
 	
 };
