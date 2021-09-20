@@ -38,6 +38,7 @@ private:
 
 	Node* search(Node* row, bool&);
 	void build_all_son_bfs(Node* row, bool&);
+	void build_son_bfs(Node* ptr_node, bool posible, int& k, Puzzle p);
 	
 	
 };
