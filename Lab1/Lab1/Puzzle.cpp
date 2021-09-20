@@ -65,7 +65,15 @@ void Puzzle::write()
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			cout << field[i][j] << " ";
+			if (field[i][j] != 0)
+			{
+				cout << field[i][j] << " ";
+			}
+			else
+			{
+				cout << "  ";
+			}
+			
 		}
 		cout << endl;
 	}
@@ -89,7 +97,15 @@ std::ostream& operator<<(std::ostream& out, Puzzle& obj)
 	{
 		for (int j = 0; j < 3; j++)
 		{
-			out << obj.field[i][j] << " ";
+			if (obj.field[i][j] != 0)
+			{
+				out << obj.field[i][j] << " ";
+			}
+			else
+			{
+				out <<  "  ";
+			}
+			
 		}
 		out << '\n';
 	}
