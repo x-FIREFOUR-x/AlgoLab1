@@ -145,12 +145,8 @@ void Algorithm::BFS(Puzzle p)
 	else
 	{	
 		bfs_solution.push(p);
-		p.write();
 	}
-	if (ptr != nullptr)
-	{
-		bfs_solution.push(ptr->puzzele);
-	}
+	
 }
 
 void Algorithm::write_bfs_solution()
@@ -172,7 +168,7 @@ Node* Algorithm::search(Node* ptr_node,bool& is_search)
 			if (is_search)
 			{
 				bfs_solution.push(ptr_node->puzzele);
-				ptr_node->puzzele.write();
+				//ptr_node->puzzele.write();
 				return ptr_node->ptr_father;
 			}
 			else
@@ -180,12 +176,17 @@ Node* Algorithm::search(Node* ptr_node,bool& is_search)
 				if (ptr_node->ptr[i] != nullptr)
 				{
 					search(ptr_node->ptr[i], is_search);
+					
 				}
 				else
 				{
 					if (ptr_node->is_son != true)
 					{
 						build_all_son_bfs(ptr_node, is_search);
+						if (is_search)
+						{
+							bfs_solution.push(ptr_node->puzzele);
+						}
 						break;
 					}
 						
