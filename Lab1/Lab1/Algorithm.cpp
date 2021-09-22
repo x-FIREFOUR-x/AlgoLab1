@@ -119,6 +119,7 @@ void Algorithm::build_son(Node* ptr_node, int index, bool posible, const Puzzle&
 
 
 
+
 void Algorithm::write_solution()
 {
 
@@ -129,25 +130,83 @@ void Algorithm::write_solution()
 	}
 }
 
-void Algorithm::BFS(Puzzle p)
+void Algorithm::BFS(Puzzle statrt_puzzle)
 {
+	queue<State_puzzle> que;
+	que.push(State_puzzle(statrt_puzzle, -1, -1));
+	vector<State_puzzle> states;
+
 	bool is_search = false;
-	Node* ptr = nullptr;
-	if (!p.success())
+	while (!is_search)
 	{
-		row = new Node(p, nullptr);		// створення початкового стану в корні дерева
-		while (!is_search)
-		{
-			 ptr = search(row, is_search);
-		}
-		
+		search(que, is_search, states);
+	}
+	
+	int current_index = (states.size() - 1);
+	State_puzzle current_puzle = states[current_index];
+	while (current_puzle.puzzle != statrt_puzzle)
+	{
+		bfs_solution.push(current_puzle.puzzle);
+		current_index = current_puzle.index_father;
+		current_puzle = states[current_index];
+	}
+	bfs_solution.push(current_puzle.puzzle);
+}
+
+void Algorithm::search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states)
+{
+	State_puzzle current_state = que.front();
+	que.pop();
+	states.push_back(current_state);
+	
+	if (!current_state.puzzle.success())
+	{
+		build_all_son_bfs(que, current_state, states, states.size()-1);
 	}
 	else
-	{	
-		bfs_solution.push(p);
+	{
+		is_search = true;
 	}
 	
 }
+
+void Algorithm::build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father)
+{
+	Puzzle new_puz = current_state.puzzle;
+	bool posible;
+
+	new_puz.move(new_puz.get_x_void() - 1, new_puz.get_y_void(), posible);
+	build_son_bfs(que, new_puz, index_father, states);
+
+	new_puz = current_state.puzzle;
+	new_puz.move(new_puz.get_x_void() + 1, new_puz.get_y_void(), posible);
+	build_son_bfs(que, new_puz, index_father, states);
+
+	new_puz = current_state.puzzle;
+	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() - 1, posible);
+	build_son_bfs(que, new_puz, index_father, states);
+
+	new_puz = current_state.puzzle;
+	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() + 1, posible);
+	build_son_bfs(que, new_puz, index_father, states);
+}
+
+void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int index_father, vector<State_puzzle>& states)
+{
+	int index_prafather = states[index_father].index_father;
+	if (index_prafather != -1)
+	{
+		if (states[index_prafather].puzzle != new_puz)
+		{
+			que.push(State_puzzle(new_puz, index_father, index_prafather));
+		}
+	}
+	else
+	{
+		que.push(State_puzzle(new_puz, index_father, states[index_father].index_father));
+	}
+}
+
 
 void Algorithm::write_bfs_solution()
 {
@@ -157,102 +216,6 @@ void Algorithm::write_bfs_solution()
 	{ 
 		cout << bfs_solution.top();
 		bfs_solution.pop();
-	}
-}
-
-Node* Algorithm::search(Node* ptr_node,bool& is_search)
-{
-	
-		for (int i = 0; i < 4; i++)
-		{
-			if (is_search)
-			{
-				bfs_solution.push(ptr_node->puzzele);
-				return ptr_node->ptr_father;
-			}
-			else
-			{
-				if (ptr_node->ptr[i] != nullptr)
-				{
-					search(ptr_node->ptr[i], is_search);
-					
-				}
-				else
-				{
-					if (ptr_node->is_son != true)
-					{
-						build_all_son_bfs(ptr_node, is_search);
-						if (is_search)
-						{
-							bfs_solution.push(ptr_node->puzzele);
-						}
-						break;
-					}
-						
-				}
-			}
-			
-		}
-	
-
-
-	return nullptr;
-}
-
-void Algorithm::build_all_son_bfs(Node* ptr_node, bool& is_search)
-{
-	bool posible;
-	int k = 0;
-
-	Puzzle p = ptr_node->puzzele;
-	p.move(ptr_node->puzzele.get_x_void() - 1, ptr_node->puzzele.get_y_void(), posible);
-	build_son_bfs(ptr_node, posible, k, p);
-
-	p = ptr_node->puzzele;
-	p.move(ptr_node->puzzele.get_x_void() + 1, ptr_node->puzzele.get_y_void(), posible);
-	build_son_bfs(ptr_node, posible, k, p);
-
-	p = ptr_node->puzzele;
-	p.move(ptr_node->puzzele.get_x_void(), ptr_node->puzzele.get_y_void() - 1, posible);
-	build_son_bfs(ptr_node, posible, k, p);
-
-	p = ptr_node->puzzele;
-	p.move(ptr_node->puzzele.get_x_void(), ptr_node->puzzele.get_y_void() + 1, posible);
-	build_son_bfs(ptr_node, posible, k, p);
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (ptr_node->ptr[i] != nullptr)
-		{
-			if (ptr_node->ptr[i]->puzzele.success())
-			{
-				bfs_solution.push(ptr_node->ptr[i]->puzzele);
-				is_search = true;
-			}
-		}
-			
-	}
-	
-	ptr_node->is_son = true;
-}
-
-void Algorithm::build_son_bfs(Node* ptr_node, bool posible, int& k, Puzzle p)
-{
-	if (posible) {
-		if (ptr_node->ptr_father != nullptr)
-		{
-			if (ptr_node->ptr_father->puzzele != p)
-			{
-				ptr_node->ptr[k] = new Node(p, ptr_node);
-				k++;
-			}
-		}
-		else
-		{
-			ptr_node->ptr[k] = new Node(p, ptr_node);
-			k++;
-		}
-
 	}
 }
 

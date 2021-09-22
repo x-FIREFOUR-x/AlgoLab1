@@ -2,7 +2,9 @@
 #include <iostream>
 #include<vector>
 #include<stack>
-#include<functional>
+#include<queue>
+#include <vector>
+
 #include "Puzzle.h"
 
 using namespace std;
@@ -20,6 +22,14 @@ struct Node				// вузел дерева(стан головоломки) потрібного алгоритму
 
 class Algorithm
 {
+	struct State_puzzle
+	{
+		Puzzle puzzle;
+		int index_father;
+		int index_grandfather;
+		State_puzzle(Puzzle p, int ind_fa, int ind_gfa) { puzzle = p; index_father = ind_fa; index_grandfather = ind_gfa; }
+	};
+
 	Node* row;					// вказівник на початковий стан
 	vector<Puzzle> solution;	// список всіх станів (кроки від початкового до кінечного стану)
 	vector<Puzzle> list_used;	// список станів у які алгоритм уже приходив
@@ -28,7 +38,7 @@ class Algorithm
 public:
 	void Astar(Puzzle);			//	Алгоритм A* для розв'язання 8-puzzle
 	void write_solution();	
-	void BFS(Puzzle);
+	void BFS(Puzzle);			// Алгоритм BFS для розв'язання 8-puzzle
 	void write_bfs_solution();
 
 private:
@@ -36,9 +46,9 @@ private:
 	int choose_sun_astar(Node* ptr_node);	// вибір наступного стану в А* за манхетенською евристикою
 	void build_son(Node* ptr_node, int index, bool posible, const Puzzle& p);	// побудувати один з всіх наступних станів, якщо це можливо (чи він вже не використовувався)
 
-	Node* search(Node* row, bool&);
-	void build_all_son_bfs(Node* row, bool&);
-	void build_son_bfs(Node* ptr_node, bool posible, int& k, Puzzle p);
+	void search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states);			// пошук кінечного стану
+	void build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father);	// записування в чергу наступних станів від поточного
+	void build_son_bfs(queue<State_puzzle>&, Puzzle p ,int index_father, vector<State_puzzle>& states);									// записування в чергу одного з наступних станів поточного
 	
 	
 };
