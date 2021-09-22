@@ -1,7 +1,9 @@
 ﻿#include <iostream>
 #include <ctime>
+#include <chrono>
 #include "Puzzle.h"
 #include "Algorithm.h"
+#include <time.h>
 
 
 using namespace std;
@@ -11,10 +13,11 @@ int main()
     
     srand(time(NULL));
 
-    clock_t start_time = clock();
+    
 
     Puzzle l;
     l.read();
+    unsigned int start = clock();
     //l.write();
 
     Algorithm t;
@@ -24,9 +27,9 @@ int main()
    // t.write_solution();
     t.write_bfs_solution();
 
-    clock_t end_time = clock() ;
-    double time = (end_time - start_time) / CLOCKS_PER_SEC;
-    cout << endl << "time: " << time << endl;
+    unsigned int end = clock();
+    cout << (float)(end - start)/1000 << endl;
+
     return 0;
 }
 

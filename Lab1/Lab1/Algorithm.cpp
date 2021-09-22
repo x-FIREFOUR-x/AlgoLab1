@@ -134,6 +134,7 @@ void Algorithm::BFS(Puzzle statrt_puzzle)
 {
 	queue<State_puzzle> que;
 	que.push(State_puzzle(statrt_puzzle, -1, -1));
+
 	vector<State_puzzle> states;
 
 	bool is_search = false;
