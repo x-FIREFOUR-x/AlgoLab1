@@ -24,12 +24,98 @@ Node::~Node()
 	delete ptr_father;
 }
 
-void Algorithm::Astar(Puzzle p)
+
+void Algorithm::Astar(Puzzle start_puzzle)
 {
-	row = new Node(p, nullptr);		// створення початкового стану в корні дерева
-	build_all_son(row);				// вхід в рекурсивну функцію побудови всіх синів вибраного предка
+	priority_queue <pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> pri_queue;
+
+	int h2 = start_puzzle.calculate_heuristics();
+	State_puzzle st_puzzle(start_puzzle, -1);
+
+	pri_queue.push(pair(h2, st_puzzle));
+
+	vector<State_puzzle> states;
+	vector<Puzzle> used;
+
+	bool is_search = false;
+	while (!is_search)
+	{
+		search(pri_queue, is_search, states, used);
+	}
+
+	int current_index = (states.size() - 1);
+	State_puzzle current_puzzle = states[current_index];
+	while (current_puzzle.puzzle != start_puzzle)
+	{
+		bfs_solution.push(current_puzzle.puzzle);
+		current_index = current_puzzle.index_father;
+		current_puzzle = states[current_index];
+	}
+	bfs_solution.push(current_puzzle.puzzle);
 }
 
+void Algorithm::search(priority_queue<pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> &pri_queue, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used)
+{
+	State_puzzle current_state = pri_queue.top().second;
+	pri_queue.pop();
+
+	states.push_back(current_state);
+	used.push_back(current_state.puzzle);
+
+	if (!current_state.puzzle.success())
+	{
+		build_all_son_bfs(pri_queue, current_state, states, states.size() - 1, used);
+	}
+	else
+	{
+		is_search = true;
+	}
+
+}
+
+void Algorithm::build_all_son_bfs(priority_queue<pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> &pri_queue, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used)
+{
+	Puzzle new_puz = current_state.puzzle;
+	bool posible;
+
+	new_puz.move(new_puz.get_x_void() - 1, new_puz.get_y_void(), posible);
+	build_son_bfs(pri_queue, new_puz, index_father, states, used);
+
+	new_puz = current_state.puzzle;
+	new_puz.move(new_puz.get_x_void() + 1, new_puz.get_y_void(), posible);
+	build_son_bfs(pri_queue, new_puz, index_father, states, used);
+
+	new_puz = current_state.puzzle;
+	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() - 1, posible);
+	build_son_bfs(pri_queue, new_puz, index_father, states, used);
+
+	new_puz = current_state.puzzle;
+	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() + 1, posible);
+	build_son_bfs(pri_queue, new_puz, index_father, states, used);
+}
+
+void Algorithm::build_son_bfs(priority_queue<pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> &pri_queue, Puzzle new_puz, int index_father, vector<State_puzzle>& states, vector<Puzzle>& used)
+{
+	bool is_copy = false;
+	for (int i = 0; i < used.size(); i++)
+	{
+		if (used[i] == new_puz)
+		{
+			is_copy = true;
+			break;
+		}
+	}
+
+	if (!is_copy)
+	{
+		int h2 = new_puz.calculate_heuristics();
+		State_puzzle st_puzzle(new_puz, index_father);
+
+		pri_queue.push(pair(h2, st_puzzle));
+	}
+}
+
+/*
 void Algorithm::build_all_son(Node* ptr_node)
 {
 	solution.push_back(ptr_node->puzzele);			// додавання поточного стану в розв'язок
@@ -116,7 +202,7 @@ void Algorithm::build_son(Node* ptr_node, int index, bool posible, const Puzzle&
 		//if (index == 3 && ptr_node->ptr[0] == nullptr && ptr_node->ptr[0] == nullptr &&)
 	}
 }
-
+*/
 
 
 
@@ -130,10 +216,10 @@ void Algorithm::write_solution()
 	}
 }
 
-void Algorithm::BFS(Puzzle statrt_puzzle)
+void Algorithm::BFS(Puzzle start_puzzle)
 {
 	queue<State_puzzle> que;
-	que.push(State_puzzle(statrt_puzzle, -1, -1));
+	que.push(State_puzzle(start_puzzle, -1));
 
 	vector<State_puzzle> states;
 	vector<Puzzle> used;
@@ -146,7 +232,7 @@ void Algorithm::BFS(Puzzle statrt_puzzle)
 	
 	int current_index = (states.size() - 1);
 	State_puzzle current_puzle = states[current_index];
-	while (current_puzle.puzzle != statrt_puzzle)
+	while (current_puzle.puzzle != start_puzzle)
 	{
 		bfs_solution.push(current_puzle.puzzle);
 		current_index = current_puzle.index_father;
@@ -223,7 +309,7 @@ void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int inde
 
 	if(!is_copy)
 	{
-		que.push(State_puzzle(new_puz, index_father, states[index_father].index_father));
+		que.push(State_puzzle(new_puz, index_father));
 	}
 }
 
