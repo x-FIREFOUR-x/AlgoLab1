@@ -48,7 +48,7 @@ private:
 
 	void search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states);			// пошук кінечного стану
 	void build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father);	// записування в чергу наступних станів від поточного
-	void build_son_bfs(queue<State_puzzle>&, Puzzle p ,int index_father);									// записування в чергу одного з наступних станів поточного
+	void build_son_bfs(queue<State_puzzle>&, Puzzle p ,int index_father, vector<State_puzzle>& states);									// записування в чергу одного з наступних станів поточного
 	
 	
 };

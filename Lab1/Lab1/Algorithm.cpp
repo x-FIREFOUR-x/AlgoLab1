@@ -133,7 +133,7 @@ void Algorithm::write_solution()
 void Algorithm::BFS(Puzzle statrt_puzzle)
 {
 	queue<State_puzzle> que;
-	que.push(State_puzzle(statrt_puzzle, 0, 0));
+	que.push(State_puzzle(statrt_puzzle, -1, -1));
 	vector<State_puzzle> states;
 
 	bool is_search = false;
@@ -176,24 +176,35 @@ void Algorithm::build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current
 	bool posible;
 
 	new_puz.move(new_puz.get_x_void() - 1, new_puz.get_y_void(), posible);
-	build_son_bfs(que, new_puz, index_father);
+	build_son_bfs(que, new_puz, index_father, states);
 
 	new_puz = current_state.puzzle;
 	new_puz.move(new_puz.get_x_void() + 1, new_puz.get_y_void(), posible);
-	build_son_bfs(que, new_puz, index_father);
+	build_son_bfs(que, new_puz, index_father, states);
 
 	new_puz = current_state.puzzle;
 	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() - 1, posible);
-	build_son_bfs(que, new_puz, index_father);
+	build_son_bfs(que, new_puz, index_father, states);
 
 	new_puz = current_state.puzzle;
 	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() + 1, posible);
-	build_son_bfs(que, new_puz, index_father);
+	build_son_bfs(que, new_puz, index_father, states);
 }
 
-void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int index_father)
+void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int index_father, vector<State_puzzle>& states)
 {
-	que.push(State_puzzle(new_puz, index_father, 0));
+	int index_prafather = states[index_father].index_father;
+	if (index_prafather != -1)
+	{
+		if (states[index_prafather].puzzle != new_puz)
+		{
+			que.push(State_puzzle(new_puz, index_father, index_prafather));
+		}
+	}
+	else
+	{
+		que.push(State_puzzle(new_puz, index_father, states[index_father].index_father));
+	}
 }
 
 
