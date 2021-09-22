@@ -13,7 +13,6 @@ private:
 	int** field;	// матриця що відображає стан пазла
 	int x_void;		// index row void (puzzle "0")
 	int y_void;		// index column void (puzzle "0")
-	//int h2 = 0;			// Manhattan heuristics
 
 public:
 	Puzzle();								
@@ -29,8 +28,6 @@ public:
 	void random();								// функція рандомного тасування пазла
 	void move(int x, int y, bool& posible);		// переміщення частини головоломки координати x i y (row i column) на пусте місце (x_void i y_void)		
 												// (якщо операція успішна posible = true в іншому випадку false) 
-
-	//int get_h2();
 	int get_x_void();
 	int get_y_void();
 
