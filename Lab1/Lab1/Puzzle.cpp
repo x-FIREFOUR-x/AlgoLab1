@@ -9,7 +9,6 @@ Puzzle::Puzzle()
 	}
 
 	locate_zero();
-	h2 = 0;
 }
 Puzzle::Puzzle(const Puzzle& obj)
 {
@@ -28,7 +27,6 @@ Puzzle::Puzzle(const Puzzle& obj)
 
 	}
 	locate_zero();
-	h2 = 0;
 }
 Puzzle::~Puzzle()
 {
@@ -52,7 +50,6 @@ Puzzle Puzzle::operator=(const Puzzle& obj)
 
 	x_void = obj.x_void;
 	y_void = obj.y_void;
-	h2 = obj.h2;
 
 	return *this;
 }
@@ -160,11 +157,7 @@ void Puzzle::move(int x, int y, bool& possible)
 
 }
 
-int Puzzle::get_h2()
-{
-	calculate_heuristics();
-	return h2;
-}
+
 
 int Puzzle::get_x_void()
 {
@@ -216,9 +209,9 @@ void Puzzle::locate_zero()
 	}
 }
 
-void Puzzle::calculate_heuristics()
+int Puzzle::calculate_heuristics()
 {
-	
+	int h2 = 0;
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -230,6 +223,7 @@ void Puzzle::calculate_heuristics()
 
 		}
 	}
+	return h2;
 }
 
 bool Puzzle::operator==(const Puzzle& obj)
