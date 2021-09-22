@@ -13,6 +13,12 @@ Node::Node(Puzzle obj, Node* p_father)
 	is_son = false;
 }
 
+bool operator<(const pair<int, Algorithm::State_puzzle>& lhs, const pair<int, Algorithm::State_puzzle>& rhs)
+{
+	return lhs.first < rhs.first;
+}
+
+
 Node::~Node()
 {
 	for (int i = 0; i < 4; i++)
@@ -27,7 +33,7 @@ Node::~Node()
 
 void Algorithm::Astar(Puzzle start_puzzle)
 {
-	priority_queue <pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> pri_queue;
+	prior_queue pri_queue;
 
 	int h2 = start_puzzle.calculate_heuristics();
 	State_puzzle st_puzzle(start_puzzle, -1);
@@ -54,7 +60,7 @@ void Algorithm::Astar(Puzzle start_puzzle)
 	bfs_solution.push(current_puzzle.puzzle);
 }
 
-void Algorithm::search(priority_queue<pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> &pri_queue, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used)
+void Algorithm::search(prior_queue &pri_queue, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used)
 {
 	State_puzzle current_state = pri_queue.top().second;
 	pri_queue.pop();
@@ -73,7 +79,7 @@ void Algorithm::search(priority_queue<pair<int, State_puzzle>, vector<pair<int, 
 
 }
 
-void Algorithm::build_all_son_bfs(priority_queue<pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> &pri_queue, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used)
+void Algorithm::build_all_son_bfs(prior_queue &pri_queue, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used)
 {
 	Puzzle new_puz = current_state.puzzle;
 	bool posible;
@@ -94,7 +100,7 @@ void Algorithm::build_all_son_bfs(priority_queue<pair<int, State_puzzle>, vector
 	build_son_bfs(pri_queue, new_puz, index_father, states, used);
 }
 
-void Algorithm::build_son_bfs(priority_queue<pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, greater<pair<int, State_puzzle>>> &pri_queue, Puzzle new_puz, int index_father, vector<State_puzzle>& states, vector<Puzzle>& used)
+void Algorithm::build_son_bfs(prior_queue &pri_queue, Puzzle new_puz, int index_father, vector<State_puzzle>& states, vector<Puzzle>& used)
 {
 	bool is_copy = false;
 	for (int i = 0; i < used.size(); i++)
