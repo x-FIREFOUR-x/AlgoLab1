@@ -2,7 +2,9 @@
 #include <iostream>
 #include<vector>
 #include<stack>
-#include<functional>
+#include<queue>
+#include <vector>
+
 #include "Puzzle.h"
 
 using namespace std;
@@ -28,7 +30,7 @@ class Algorithm
 public:
 	void Astar(Puzzle);			//	Алгоритм A* для розв'язання 8-puzzle
 	void write_solution();	
-	void BFS(Puzzle);
+	void BFS(Puzzle);			// Алгоритм BFS для розв'язання 8-puzzle
 	void write_bfs_solution();
 
 private:
@@ -36,9 +38,9 @@ private:
 	int choose_sun_astar(Node* ptr_node);	// вибір наступного стану в А* за манхетенською евристикою
 	void build_son(Node* ptr_node, int index, bool posible, const Puzzle& p);	// побудувати один з всіх наступних станів, якщо це можливо (чи він вже не використовувався)
 
-	Node* search(Node* row, bool&);
-	void build_all_son_bfs(Node* row, bool&);
-	void build_son_bfs(Node* ptr_node, bool posible, int& k, Puzzle p);
+	void search(queue<pair<int,Puzzle>>& que, bool& is_search, vector<pair<int, Puzzle>>& states);			// пошук кінечного стану
+	void build_all_son_bfs(queue<pair<int, Puzzle>>& que, pair<int, Puzzle> current_state, vector<pair<int, Puzzle>>& states, int index_father);	// записування в чергу наступних станів від поточного
+	void build_son_bfs(queue<pair<int, Puzzle>>&, Puzzle p ,int index_father);									// записування в чергу одного з наступних станів поточного
 	
 	
 };

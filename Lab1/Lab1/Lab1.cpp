@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <functional>
 #include <ctime>
 #include "Puzzle.h"
 #include "Algorithm.h"
