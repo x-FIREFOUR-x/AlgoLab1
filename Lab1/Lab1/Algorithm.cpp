@@ -136,11 +136,12 @@ void Algorithm::BFS(Puzzle statrt_puzzle)
 	que.push(State_puzzle(statrt_puzzle, -1, -1));
 
 	vector<State_puzzle> states;
+	vector<Puzzle> used;
 
 	bool is_search = false;
 	while (!is_search)
 	{
-		search(que, is_search, states);
+		search(que, is_search, states, used);
 	}
 	
 	int current_index = (states.size() - 1);
@@ -154,15 +155,17 @@ void Algorithm::BFS(Puzzle statrt_puzzle)
 	bfs_solution.push(current_puzle.puzzle);
 }
 
-void Algorithm::search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states)
+void Algorithm::search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used)
 {
 	State_puzzle current_state = que.front();
 	que.pop();
+
 	states.push_back(current_state);
+	used.push_back(current_state.puzzle);
 	
 	if (!current_state.puzzle.success())
 	{
-		build_all_son_bfs(que, current_state, states, states.size()-1);
+		build_all_son_bfs(que, current_state, states, states.size()-1, used);
 	}
 	else
 	{
@@ -171,31 +174,32 @@ void Algorithm::search(queue<State_puzzle>& que, bool& is_search, vector<State_p
 	
 }
 
-void Algorithm::build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father)
+void Algorithm::build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used)
 {
 	Puzzle new_puz = current_state.puzzle;
 	bool posible;
 
 	new_puz.move(new_puz.get_x_void() - 1, new_puz.get_y_void(), posible);
-	build_son_bfs(que, new_puz, index_father, states);
+	build_son_bfs(que, new_puz, index_father, states, used);
 
 	new_puz = current_state.puzzle;
 	new_puz.move(new_puz.get_x_void() + 1, new_puz.get_y_void(), posible);
-	build_son_bfs(que, new_puz, index_father, states);
+	build_son_bfs(que, new_puz, index_father, states, used);
 
 	new_puz = current_state.puzzle;
 	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() - 1, posible);
-	build_son_bfs(que, new_puz, index_father, states);
+	build_son_bfs(que, new_puz, index_father, states, used);
 
 	new_puz = current_state.puzzle;
 	new_puz.move(new_puz.get_x_void(), new_puz.get_y_void() + 1, posible);
-	build_son_bfs(que, new_puz, index_father, states);
+	build_son_bfs(que, new_puz, index_father, states, used);
 }
 
-void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int index_father, vector<State_puzzle>& states)
+void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int index_father, vector<State_puzzle>& states, vector<Puzzle>& used)
 {
 	int index_prafather = states[index_father].index_father;
-	if (index_prafather != -1)
+
+	/*if (index_prafather != -1)
 	{
 		if (states[index_prafather].puzzle != new_puz)
 		{
@@ -203,6 +207,21 @@ void Algorithm::build_son_bfs(queue<State_puzzle>& que, Puzzle new_puz, int inde
 		}
 	}
 	else
+	{
+		que.push(State_puzzle(new_puz, index_father, states[index_father].index_father));
+	}*/
+
+	bool is_copy = false;
+	for (int i = 0; i < used.size(); i++)
+	{
+		if (used[i] == new_puz)
+		{
+			is_copy = true;
+			break;
+		}
+	}
+
+	if(!is_copy)
 	{
 		que.push(State_puzzle(new_puz, index_father, states[index_father].index_father));
 	}
