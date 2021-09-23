@@ -1,6 +1,6 @@
 #include "Algorithm.h"
 
-bool operator<(const pair<int, Algorithm::State_puzzle>& lhs, const pair<int, Algorithm::State_puzzle>& rhs)
+bool operator<(const pair<int, State_puzzle>& lhs, const pair<int, State_puzzle>& rhs)
 {
 	return lhs.first < rhs.first;
 }

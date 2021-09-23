@@ -7,23 +7,26 @@
 #include <string>
 
 #include "Puzzle.h"
+//#include "Test.h"
 
 using namespace std;
+struct State_puzzle			// стан пазла
+{
+	Puzzle puzzle;		// поточний стан
+	int index_father;	// індекс попереднього стану в списку 
+	State_puzzle(Puzzle p, int ind_fa)
+	{
+		puzzle = p;
+		index_father = ind_fa;
+	}
+};
 
 class Algorithm
 {
-	struct State_puzzle			// стан пазла
-	{
-		Puzzle puzzle;		// поточний стан
-		int index_father;	// індекс попереднього стану в списку 
-		State_puzzle(Puzzle p, int ind_fa) 
-		{ 
-			puzzle = p; 
-			index_father = ind_fa;
-		}
-	};
+	
+	friend class Test;
 
-	friend bool operator<(const pair<int, Algorithm::State_puzzle>&, const pair<int, Algorithm::State_puzzle>&);	// предикат для визначення пріоритету в пріоритетні черзі
+	friend bool operator<(const pair<int, State_puzzle>&, const pair<int, State_puzzle>&);	// предикат для визначення пріоритету в пріоритетні черзі
 
 	vector<Puzzle> list_used;		// список станів у які алгоритм уже приходив
 	stack<Puzzle> solution;			// список послідовних станів від кінечного до початкогвого (у вершині початковий)
