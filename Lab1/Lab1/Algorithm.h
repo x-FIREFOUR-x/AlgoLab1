@@ -3,7 +3,8 @@
 #include<vector>
 #include<stack>
 #include<queue>
-#include <vector>
+#include<map>
+#include <string>
 
 #include "Puzzle.h"
 
@@ -34,13 +35,14 @@ public:
 	stack<Puzzle> get_solution();
 
 private:
-	void search(queue<State_puzzle>& que, bool& is_search, vector<Puzzle>& used);										// пошук кінечного стану (BFS)
-	void build_all_son(queue<State_puzzle>& que, State_puzzle current_state, int index_father, vector<Puzzle>& used);	// записування в чергу наступних станів від поточного (BFS)
-	void build_son(queue<State_puzzle>&, Puzzle p ,int index_father, vector<Puzzle>& used);							// записування в чергу одного з наступних станів поточного (BFS)
+	void search(queue<State_puzzle>& que, bool& is_search, map<string, Puzzle>& used);										// пошук кінечного стану (BFS)
+	void build_all_son(queue<State_puzzle>& que, State_puzzle current_state, int index_father, map<string, Puzzle>& used);	// записування в чергу наступних станів від поточного (BFS)
+	void build_son(queue<State_puzzle>&, Puzzle p ,int index_father, map<string, Puzzle>& used);							// записування в чергу одного з наступних станів поточного (BFS)
 	
 	using prior_queue = priority_queue <pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, std::greater<pair<int, State_puzzle>> >;
 	void search(prior_queue &pri_queue, bool& is_search, vector<Puzzle>& used);										// пошук кінечного стану (A*)
 	void build_all_son(prior_queue &pri_queue, State_puzzle current_state, int index_father, vector<Puzzle>& used);	// записування в чергу наступних станів від поточного (A*)
 	void build_son(prior_queue &pri_queue, Puzzle p, int index_father, vector<Puzzle>& used);							// записування в чергу одного з наступних станів поточного (A*)
 
+	string calculate_key(Puzzle puzzle);
 };

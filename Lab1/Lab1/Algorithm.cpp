@@ -94,13 +94,27 @@ void Algorithm::build_son(prior_queue &pri_queue, Puzzle new_puz, int index_fath
 	}
 }
 
+string Algorithm::calculate_key(Puzzle puzzle)
+{
+	string key = "";
+	string k;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			k = to_string(puzzle.get_elem_field(i, j));
+			key = key + k;
+		}
+	}
+	return key;
+}
+
 void Algorithm::BFS(Puzzle start_puzzle)
 {
 	queue<State_puzzle> que;
 	que.push(State_puzzle(start_puzzle, -1));
 
-	vector<Puzzle> used;
-	cout << que.size() << endl;
+	map<string, Puzzle> used;
 
 	bool is_search = false;
 	while (!is_search)
@@ -119,15 +133,17 @@ void Algorithm::BFS(Puzzle start_puzzle)
 	solution.push(current_puzle.puzzle);
 }
 
-void Algorithm::search(queue<State_puzzle>& que, bool& is_search, vector<Puzzle>& used)
+void Algorithm::search(queue<State_puzzle>& que, bool& is_search, map<string, Puzzle>& used)
 {
 	State_puzzle current_state = que.front();
 	que.pop();
-	cout << que.size() << endl;
+	//cout << que.size() << endl;
 
 	states.push_back(current_state);
-	used.push_back(current_state.puzzle);
-	
+
+	string key = calculate_key(current_state.puzzle);
+	used[key] = current_state.puzzle;
+
 	if (!current_state.puzzle.success())
 	{
 		build_all_son(que, current_state, states.size()-1, used);
@@ -139,7 +155,7 @@ void Algorithm::search(queue<State_puzzle>& que, bool& is_search, vector<Puzzle>
 	
 }
 
-void Algorithm::build_all_son(queue<State_puzzle>& que, State_puzzle current_state, int index_father, vector<Puzzle>& used)
+void Algorithm::build_all_son(queue<State_puzzle>& que, State_puzzle current_state, int index_father, map<string, Puzzle>& used)
 {
 	Puzzle new_puz = current_state.puzzle;
 	bool posible;
@@ -160,28 +176,19 @@ void Algorithm::build_all_son(queue<State_puzzle>& que, State_puzzle current_sta
 	build_son(que, new_puz, index_father, used);
 }
 
-void Algorithm::build_son(queue<State_puzzle>& que, Puzzle new_puz, int index_father, vector<Puzzle>& used)
+void Algorithm::build_son(queue<State_puzzle>& que, Puzzle new_puz, int index_father, map<string, Puzzle>& used)
 {
-	int index_prafather = states[index_father].index_father;
-
-	bool is_copy = false;
-	for (int i = 0; i < used.size(); i++)
-	{
-		if (used[i] == new_puz)
-		{
-			is_copy = true;
-			break;
-		}
-	}
-
-	if(!is_copy)
+	string key = calculate_key(new_puz);
+	map<string,Puzzle>::iterator it = used.find(key);
+	
+	if(it == used.end())
 	{
 		que.push(State_puzzle(new_puz, index_father));
 	}
 }
 
+
 stack<Puzzle> Algorithm::get_solution()
 {
 	return solution;
 }
-

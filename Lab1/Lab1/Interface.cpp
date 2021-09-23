@@ -57,7 +57,12 @@ void Interface::write_puzzle(Puzzle puzzle)
         for (int j = 0; j < 3; j++)
         {
             elem = puzzle.get_elem_field(i, j);
-            cout << elem << " ";
+            if (elem == 0){
+                cout << "  ";
+            }
+            else{
+                cout << elem << " ";
+            }
         }
         cout << endl;
     }
