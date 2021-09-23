@@ -54,7 +54,7 @@ Puzzle Puzzle::operator=(const Puzzle& obj)
 	return *this;
 }
 
-
+/*
 void Puzzle::write()
 {
 	cout << "_____" << endl;
@@ -122,6 +122,7 @@ std::istream& operator>>(std::istream& in, Puzzle& obj)
 
 	return in;
 }
+*/
 
 void Puzzle::random()
 {
@@ -167,6 +168,16 @@ int Puzzle::get_x_void()
 int Puzzle::get_y_void()
 {
 	return y_void;
+}
+
+int Puzzle::get_elem_field(int row, int column)
+{
+	return field[row][column];
+}
+
+void Puzzle::set_elem_field(int elem, int row, int column)
+{
+	field[row][column] = elem;
 }
 
 bool Puzzle::success()

@@ -141,11 +141,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="Lab1.cpp" />
     <ClCompile Include="Puzzle.cpp" />
     <ClCompile Include="Algorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Interface.h" />
     <ClInclude Include="Puzzle.h" />
     <ClInclude Include="Algorithm.h" />
   </ItemGroup>

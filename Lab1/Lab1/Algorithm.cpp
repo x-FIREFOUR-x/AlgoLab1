@@ -181,7 +181,7 @@ void Algorithm::build_son(queue<State_puzzle>& que, Puzzle new_puz, int index_fa
 }
 
 
-void Algorithm::write_solution()
+/*void Algorithm::write_solution()
 {
 	cout << "======STEPS===" << solution.size()-1 << "=====" << endl;
 	Puzzle p;
@@ -190,5 +190,10 @@ void Algorithm::write_solution()
 		cout << solution.top();
 		solution.pop();
 	}
+}*/
+
+stack<Puzzle> Algorithm::get_solution()
+{
+	return solution;
 }
 

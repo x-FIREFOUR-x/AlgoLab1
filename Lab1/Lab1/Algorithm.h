@@ -26,7 +26,8 @@ class Algorithm
 public:
 	void Astar(Puzzle);			//	Алгоритм A* для розв'язання 8-puzzle
 	void BFS(Puzzle);			// Алгоритм BFS для розв'язання 8-puzzle
-	void write_solution();		
+	//void write_solution();		
+	stack<Puzzle> get_solution();
 
 private:
 	

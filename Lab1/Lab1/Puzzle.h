@@ -20,16 +20,20 @@ public:
 	~Puzzle();								
 	Puzzle operator=(const Puzzle& obj);	
 
+	/*
 	friend std::ostream& operator<<(std::ostream& out, Puzzle& obj);
 	friend std::istream& operator>>(std::istream& in, Puzzle& obj);
 	void write();
 	void read();
+	*/
 
 	void random();								// функція рандомного тасування пазла
 	void move(int x, int y, bool& posible);		// переміщення частини головоломки координати x i y (row i column) на пусте місце (x_void i y_void)		
 												// (якщо операція успішна posible = true в іншому випадку false) 
 	int get_x_void();
 	int get_y_void();
+	int get_elem_field(int row, int column);
+	void set_elem_field(int elem, int row, int column);
 
 	bool success();								// визначення чи головоломка в кінцевому стані  
 	int calculate_heuristics();				// підрахунок еврестичної функції для поточного стану(манхетенська евристика)
