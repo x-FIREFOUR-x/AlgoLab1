@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 #include <vector>
-#include"Algorithm.h"
+#include "State_puzzle.h"
 
 using namespace std;
 class Test
@@ -13,6 +13,6 @@ public:
 	int get_iterations();
 	int get_state();
 
-	void increase_iter(int numb);
+	void increase_iter(int numb = 1);
 	void count_states(vector<State_puzzle>& states);
 };

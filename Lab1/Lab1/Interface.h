@@ -16,5 +16,6 @@ private:
 	Puzzle read_puzzle();					// зчитування пазлу від користувача з консолі
 	void write_puzzle(Puzzle puzzle);		// запис пазлу на консоль
 	void write_solution(Algorithm& algo);	// виведення розв'язку пазлу (послідовні стани розв'язку від початкового до кінечного)
+	void write_test_stats(Test test);
 };
 

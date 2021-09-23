@@ -145,12 +145,14 @@
     <ClCompile Include="Lab1.cpp" />
     <ClCompile Include="Puzzle.cpp" />
     <ClCompile Include="Algorithm.cpp" />
+    <ClCompile Include="State_puzzle.cpp" />
     <ClCompile Include="Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Puzzle.h" />
     <ClInclude Include="Algorithm.h" />
+    <ClInclude Include="State_puzzle.h" />
     <ClInclude Include="Test.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

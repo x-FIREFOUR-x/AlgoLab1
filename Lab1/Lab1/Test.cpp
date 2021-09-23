@@ -16,7 +16,7 @@ int Test::get_state()
 	return amount_state;
 }
 
-void Test::increase_iter(int numb = 1)
+void Test::increase_iter(int numb)
 {
 	amount_iterations += numb;
 }

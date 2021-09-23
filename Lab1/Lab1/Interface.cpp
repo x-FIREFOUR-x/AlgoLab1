@@ -6,6 +6,7 @@ void Interface::consol_intface()
     Puzzle puzzle = read_puzzle();
     
     Algorithm algo;
+    Test test;
 
     int choose;
     cout << "choose algorithm (1 - BFS, 2 - A*):";
@@ -15,7 +16,7 @@ void Interface::consol_intface()
     if (choose == 1)
     {
         cout << "---BFS---" << endl;
-        algo.BFS(puzzle);
+        algo.BFS(puzzle, test);
         write_solution(algo);
     }
     else
@@ -23,13 +24,15 @@ void Interface::consol_intface()
         if (choose == 2)
         {
             cout << "---A*---" << endl;
-            algo.Astar(puzzle);
+            algo.Astar(puzzle, test);
             write_solution(algo);
         }
     }
 
+    write_test_stats(test);
+
     unsigned int end = clock();
-    cout << (float)(end - start) / 1000 << endl;
+    cout << "time: " <<(float)(end - start) / 1000 << endl;
 }
 
 Puzzle Interface::read_puzzle()
@@ -79,4 +82,11 @@ void Interface::write_solution(Algorithm& algo)
         write_puzzle(solution.top());
         solution.pop();
     }
+}
+
+void Interface::write_test_stats(Test test)
+{
+    cout << endl << "___Test___" << endl;
+    cout << "iterations: " << test.get_iterations() << endl;
+    cout << "states in memory(all states): " << test.get_state() << endl;
 }
