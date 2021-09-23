@@ -16,15 +16,27 @@ int main()
 
     Puzzle l;
     l.read();
-    unsigned int start = clock();
-    //l.write();
 
     Algorithm t;
-    t.Astar(l);
 
-    //t.BFS(l);
-   // t.write_solution();
-    t.write_bfs_solution();
+    int k;
+    cout << "choose:" << endl;
+    cin >> k;
+
+    unsigned int start = clock();
+    if (k == 1)
+    {
+        t.BFS(l);
+        t.write_solution();
+    }
+    else
+    {
+        if (k == 2)
+        {
+            t.Astar(l);
+            t.write_solution();
+        }
+    }
 
     unsigned int end = clock();
     cout << (float)(end - start)/1000 << endl;

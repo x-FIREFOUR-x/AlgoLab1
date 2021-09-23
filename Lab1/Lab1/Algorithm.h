@@ -20,25 +20,23 @@ class Algorithm
 
 	friend bool operator<(const pair<int, Algorithm::State_puzzle>&, const pair<int, Algorithm::State_puzzle>&);
 
-	vector<Puzzle> solution;	// список всіх станів (кроки від початкового до кінечного стану)
 	vector<Puzzle> list_used;	// список станів у які алгоритм уже приходив
-	stack<Puzzle> bfs_solution;
+	stack<Puzzle> solution;		// список послідовних станів від кінечного до початкогвого (у вершині початковий)
 	
 public:
 	void Astar(Puzzle);			//	Алгоритм A* для розв'язання 8-puzzle
-	void write_solution();	
 	void BFS(Puzzle);			// Алгоритм BFS для розв'язання 8-puzzle
-	void write_bfs_solution();
+	void write_solution();		
 
 private:
 	
-	void search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used);			// пошук кінечного стану
-	void build_all_son_bfs(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used);	// записування в чергу наступних станів від поточного
-	void build_son_bfs(queue<State_puzzle>&, Puzzle p ,int index_father, vector<State_puzzle>& states, vector<Puzzle>& used);									// записування в чергу одного з наступних станів поточного
+	void search(queue<State_puzzle>& que, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used);										// пошук кінечного стану (BFS)
+	void build_all_son(queue<State_puzzle>& que, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used);	// записування в чергу наступних станів від поточного (BFS)
+	void build_son(queue<State_puzzle>&, Puzzle p ,int index_father, vector<State_puzzle>& states, vector<Puzzle>& used);							// записування в чергу одного з наступних станів поточного (BFS)
 	
 	using prior_queue = priority_queue <pair<int, State_puzzle>, vector<pair<int, State_puzzle>>, std::greater<pair<int, State_puzzle>> >;
-	void search(prior_queue &pri_queue, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used);
-	void build_all_son_bfs(prior_queue &pri_queue, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used);
-	void build_son_bfs(prior_queue &pri_queue, Puzzle p, int index_father, vector<State_puzzle>& states, vector<Puzzle>& used);
+	void search(prior_queue &pri_queue, bool& is_search, vector<State_puzzle>& states, vector<Puzzle>& used);										// пошук кінечного стану (A*)
+	void build_all_son(prior_queue &pri_queue, State_puzzle current_state, vector<State_puzzle>& states, int index_father, vector<Puzzle>& used);	// записування в чергу наступних станів від поточного (A*)
+	void build_son(prior_queue &pri_queue, Puzzle p, int index_father, vector<State_puzzle>& states, vector<Puzzle>& used);							// записування в чергу одного з наступних станів поточного (A*)
 
 };
