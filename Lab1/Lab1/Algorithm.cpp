@@ -180,18 +180,6 @@ void Algorithm::build_son(queue<State_puzzle>& que, Puzzle new_puz, int index_fa
 	}
 }
 
-
-/*void Algorithm::write_solution()
-{
-	cout << "======STEPS===" << solution.size()-1 << "=====" << endl;
-	Puzzle p;
-	while(!solution.empty())
-	{ 
-		cout << solution.top();
-		solution.pop();
-	}
-}*/
-
 stack<Puzzle> Algorithm::get_solution()
 {
 	return solution;
