@@ -167,6 +167,65 @@ int Puzzle::calculate_heuristics()
 	return h2;
 }
 
+bool Puzzle::check_solvable()
+{
+	int puzzle[9];
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			puzzle[i * 3 + j] = field[i][j];
+		}
+
+	}
+
+	int inversions = 0;
+	for (int i = 0; i < 9 - 1; i++) 
+	{
+		for (int j = i + 1; j < 9; j++) 
+		{
+			if (puzzle[i] && puzzle[j] && puzzle[i] > puzzle[j]) {
+				inversions++;
+			}
+		}
+	}
+
+	if (inversions % 2 == 1) 
+	{
+		return false;
+	}
+	else 
+	{
+		return true;
+	}
+}
+
+bool Puzzle::correct()
+{
+	bool correct = true;
+	vector<int> p;
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			p.push_back(field[i][j]);
+		}
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = i + 1; j < 9; j++)
+		{
+			if (p[i] == p[j])
+			{
+				correct = false;
+			}
+		}
+	}
+
+	return correct;
+}
+
 bool Puzzle::operator==(const Puzzle& obj)
 {
 	bool exactly = true;

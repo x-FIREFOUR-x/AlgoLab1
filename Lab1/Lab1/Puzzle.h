@@ -3,6 +3,7 @@
 
 #include<cstdlib>
 #include<vector>
+#include <list>
 #include<algorithm>
 
 using namespace std;
@@ -33,6 +34,8 @@ public:
 
 	bool success();							// визначення чи головоломка в кінцевому стані  
 	int calculate_heuristics();				// підрахунок еврестичної функції для поточного стану(манхетенська евристика)
+	bool check_solvable();					// перевірка розв'язаності
+	bool correct();
 
 private:
 	void locate_zero();					// визначення координат x_void і y_void

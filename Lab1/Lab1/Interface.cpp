@@ -8,31 +8,39 @@ void Interface::consol_intface()
     Algorithm algo;
     Test test;
 
-    int choose;
-    cout << "choose algorithm (1 - BFS, 2 - A*):";
-    cin >> choose;
-
-    unsigned int start = clock();
-    if (choose == 1)
+    if (puzzle.check_solvable() && puzzle.correct())
     {
-        cout << "---BFS---" << endl;
-        algo.BFS(puzzle, test);
-        write_solution(algo);
+        int choose;
+        cout << "choose algorithm (1 - BFS, 2 - A*):";
+        cin >> choose;
+
+        unsigned int start = clock();
+        if (choose == 1)
+        {
+            cout << "---BFS---" << endl;
+            algo.BFS(puzzle, test);
+            write_solution(algo);
+        }
+        else
+        {
+            if (choose == 2)
+            {
+                cout << "---A*---" << endl;
+                algo.Astar(puzzle, test);
+                write_solution(algo);
+            }
+        }
+
+        write_test_stats(test);
+
+        unsigned int end = clock();
+        cout << "time: " << (float)(end - start) / 1000 << endl;
     }
     else
     {
-        if (choose == 2)
-        {
-            cout << "---A*---" << endl;
-            algo.Astar(puzzle, test);
-            write_solution(algo);
-        }
+        cout << "!8-puzzle unsolvable!" << endl;
     }
-
-    write_test_stats(test);
-
-    unsigned int end = clock();
-    cout << "time: " <<(float)(end - start) / 1000 << endl;
+    
 }
 
 Puzzle Interface::read_puzzle()
