@@ -1,5 +1,4 @@
 #include "Puzzle.h"
-
 Puzzle::Puzzle()
 {
 	field = new int* [3];

@@ -11,8 +11,6 @@
 #include "State_puzzle.h"
 
 using namespace std;
-
-
 class Algorithm
 {
 
